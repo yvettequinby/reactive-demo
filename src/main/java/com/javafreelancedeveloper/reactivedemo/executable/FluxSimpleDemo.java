@@ -7,10 +7,16 @@ import reactor.core.publisher.Flux;
 
 import com.javafreelancedeveloper.reactivedemo.subscriber.DemoSubscriber;
 
-public class SimpleFluxDemo {
+/**
+ * Demo executable class for creating a simple Flux.
+ * 
+ * @author yvette.quinby
+ *
+ */
+public class FluxSimpleDemo {
 
 	public static void main(String[] args) {
-		SimpleFluxDemo demo = new SimpleFluxDemo();
+		FluxSimpleDemo demo = new FluxSimpleDemo();
 		demo.firstDemo();
 		demo.forceAnErrorDemo();
 		demo.customSubscriberDemo();

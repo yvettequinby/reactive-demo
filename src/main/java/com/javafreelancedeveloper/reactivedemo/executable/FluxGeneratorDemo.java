@@ -3,6 +3,12 @@ package com.javafreelancedeveloper.reactivedemo.executable;
 import javafx.util.Pair;
 import reactor.core.publisher.Flux;
 
+/**
+ * Demo executable class for Flux.generate
+ * 
+ * @author yvette.quinby
+ *
+ */
 public class FluxGeneratorDemo {
 
 	public static void main(String[] args) {

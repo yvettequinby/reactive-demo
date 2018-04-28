@@ -24,7 +24,12 @@ import java.util.concurrent.Executors;
 public class PretendEventProcessor {
 
 	private PretendEventListener pretendEventListener;
-	private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+	private final ExecutorService executorService = Executors.newCachedThreadPool();
+	private final Integer threadCount;
+	
+	public PretendEventProcessor(Integer threadCount) {
+		this.threadCount = threadCount;
+	}
 
 	public void register(PretendEventListener pretendEventListener) {
 		this.pretendEventListener = pretendEventListener;
@@ -34,20 +39,21 @@ public class PretendEventProcessor {
 		if(pretendEventListener==null) {
 			throw new RuntimeException("No registered listener!");
 		}
-		executorService.execute(() -> {
-			try {
-				for (int i = 0; i < 20; i++) {
-					Thread.sleep(500);
-					Double d = new Double(i*i);
-					pretendEventListener.onNext(d);
+		for(int t=0; t<threadCount; t++) {
+			executorService.execute(() -> {
+				try {
+					for (int i = 0; i < 20; i++) {
+						Thread.sleep(500);
+						Double d = new Double(i*i);
+						pretendEventListener.onNext(d);
+					}
+					pretendEventListener.onComplete();
+				} catch (Exception e) {
+					e.printStackTrace();
+					pretendEventListener.onError(e);
 				}
-				pretendEventListener.onComplete();
-				executorService.shutdown();
-			} catch (Exception e) {
-				e.printStackTrace();
-				pretendEventListener.onError(e);
-				executorService.shutdown();
-			}
-		});
+			});
+		}
+		executorService.shutdown();
 	}
 }

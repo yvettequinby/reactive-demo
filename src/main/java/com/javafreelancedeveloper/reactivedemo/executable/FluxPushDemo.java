@@ -6,30 +6,30 @@ import com.javafreelancedeveloper.reactivedemo.other.PretendEventListener;
 import com.javafreelancedeveloper.reactivedemo.other.PretendEventProcessor;
 
 /**
- * Demo executable class for Flux.create
+ * Demo executable class for Flux.push
  * 
  * @author yvette.quinby
  *
  */
-public class FluxCreateDemo {
+public class FluxPushDemo {
 
 	public static void main(String[] args) {
-		FluxCreateDemo demo = new FluxCreateDemo();
+		FluxPushDemo demo = new FluxPushDemo();
 		demo.eventProcessorBridgeDemo();
 	}
-
+	
 	/**
 	 * A demo of how to use the Flux.create method,
 	 * combined with how to use Flux with "event listener"
 	 * patterned code.
 	 * 
-	 * Create can work asynchronously or synchronously and is
-	 * suitable for multiple emissions per round.
-	 * 
+	 * Suitable for processing events from a single producer.  
+	 * Can also be asynchronous and can manage backpressure.  
+	 * Only one producing thread may invoke next, complete, or error at a time.
 	 */
 	public void eventProcessorBridgeDemo() {
-		PretendEventProcessor eventProcessor = new PretendEventProcessor(2); // create multiple (2) threads in our processor
-		Flux<Double> eventProcessorBridge = Flux.create(sink -> {
+		PretendEventProcessor eventProcessor = new PretendEventProcessor(1); // create multiple (1) threads in our processor
+		Flux<Double> eventProcessorBridge = Flux.push(sink -> {
 			eventProcessor.register(new PretendEventListener() {
 
 				public void onNext(Double d) {
