@@ -5,6 +5,12 @@ import java.util.function.Function;
 
 import reactor.core.publisher.Flux;
 
+/**
+ * Demo of how to re-use flux operator code.
+ * 
+ * @author yvette.quinby
+ *
+ */
 public class FluxReuseDemo {
 
 	public static void main(String[] args) {
